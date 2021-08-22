@@ -16,14 +16,25 @@
     "assetBundlePatterns": [
       "**/*"
     ],
+    "userInterfaceStyle": "automatic",
+    "plugins": [
+      "@config-plugins/react-native-ble-plx"
+    ],
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "userInterfaceStyle": "automatic"
     },
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#FFFFFF"
-      }
+      },
+      "userInterfaceStyle": "automatic",
+      "permissions": [
+        "android.permission.BLUETOOTH",
+        "android.permission.BLUETOOTH_ADMIN"
+      ],
+      "package": "watchdog.expo.client"
     },
     "web": {
       "favicon": "./assets/favicon.png"
