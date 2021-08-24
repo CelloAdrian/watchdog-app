@@ -131,6 +131,7 @@ const styles = StyleSheet.create({
     color: "red",
     borderWidth: 1,
     height: 60,
+    overflow: "hidden"
   },
   lightContainer: {
     backgroundColor: "#d0d0c0",
