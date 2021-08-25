@@ -6,7 +6,9 @@ import {
   BackHandler,
   Pressable,
   Text,
+  PermissionsAndroid,
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { StatusBar } from "expo-status-bar";
 import backAction from "../utils/BackAction";
 import { LeftArrowCurve } from "../utils/Icons";
@@ -19,11 +21,48 @@ const WifiSetup = ({ navigation }: any) => {
   const [wifiPassword, setWifiPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
 
+  // const initializeWifi = async () => {
+  //   try {
+  //     const SSID = await WifiManager.getCurrentWifiSSID();
+  //     console.log(SSID);
+  //   } catch(err) {
+  //     alert(err);
+  //   }
+  // }
+
+  const requestLocationPermission = async () => {
+    try {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
+        {
+          title: "watchdog",
+          message:
+            "Location permission is required to connect with or scan for Wifi networks. ",
+          buttonNegative: "DENY",
+          buttonPositive: "ACCEPT",
+        }
+      );
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        NetInfo.fetch().then(state => {
+          // @ts-ignore: Object is possibly 'null'.
+          // console.log("SSID", state.details.ssid);
+          setWifiName(state.details.ssid)
+        })
+      } else {
+        console.log("Location permission denied");
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
+    requestLocationPermission();
 
-    return () =>
+    return () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
+    }
   }, []);
 
   const themeTextStyle =
