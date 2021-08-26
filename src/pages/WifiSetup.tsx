@@ -43,11 +43,10 @@ const WifiSetup = ({ navigation }: any) => {
         }
       );
       if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-        NetInfo.fetch().then(state => {
+        NetInfo.fetch().then((state) => {
           // @ts-ignore: Object is possibly 'null'.
-          // console.log("SSID", state.details.ssid);
-          setWifiName(state.details.ssid)
-        })
+          setWifiName(state.details.ssid);
+        });
       } else {
         console.log("Location permission denied");
       }
@@ -62,7 +61,7 @@ const WifiSetup = ({ navigation }: any) => {
 
     return () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
-    }
+    };
   }, []);
 
   const themeTextStyle =

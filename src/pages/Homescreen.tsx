@@ -75,9 +75,9 @@ const Homescreen = ({ navigation }: any) => {
   }, []);
 
   if (isArmed === true) {
-    console.log("ARMED")
+    console.log("ARMED");
   } else if (isArmed === false) {
-    console.log("DISARMED")
+    console.log("DISARMED");
   }
 
   return (

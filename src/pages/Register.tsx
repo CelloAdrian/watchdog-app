@@ -5,11 +5,11 @@ import {
   StyleSheet,
   BackHandler,
   useColorScheme,
-  Pressable
+  Pressable,
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
-import { LeftArrowCurve } from "../utils/Icons"
+import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import backAction from "../utils/BackAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -131,7 +131,7 @@ const styles = StyleSheet.create({
     color: "red",
     borderWidth: 1,
     height: 60,
-    overflow: "hidden"
+    overflow: "hidden",
   },
   lightContainer: {
     backgroundColor: "#d0d0c0",
