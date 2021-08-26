@@ -15,6 +15,7 @@ import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import { TextInput } from "react-native-paper";
 import { BleManager } from "react-native-ble-plx";
+import Theme from "../utils/Theme"
 
 const WifiSetup = ({ navigation }: any) => {
   const colorScheme = useColorScheme();
@@ -231,15 +232,15 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   lightContainer: {
-    backgroundColor: "#d0d0c0",
+    backgroundColor: Theme.lightContainer,
   },
   darkContainer: {
-    backgroundColor: "#191720",
+    backgroundColor: Theme.darkContainer,
   },
   lightThemeText: {
-    color: "#191720",
+    color: Theme.lightThemeText,
   },
   darkThemeText: {
-    color: "#fff",
+    color: Theme.darkThemeText,
   },
 });

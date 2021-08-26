@@ -11,6 +11,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { HamburgerMenu } from "../utils/Icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Video } from "expo-av";
+import Theme from "../utils/Theme";
 
 function useToggle(initialValue = false) {
   const [value, setValue] = useState<boolean>(initialValue);
@@ -236,8 +237,8 @@ const styles = StyleSheet.create({
   },
   Button2: {
     // inactive button style
-    width: 180,
-    height: 180,
+    width: 190,
+    height: 190,
     justifyContent: "center",
     alignItems: "center",
     padding: 10,
@@ -247,8 +248,8 @@ const styles = StyleSheet.create({
     fontSize: 30,
   },
   Gradient: {
-    height: 190,
-    width: 190,
+    height: 200,
+    width: 200,
     justifyContent: "center",
     borderRadius: 9999,
     alignItems: "center",
@@ -273,21 +274,21 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   lightContainer: {
-    backgroundColor: "#d0d0c0",
+    backgroundColor: Theme.lightContainer,
   },
   darkContainer: {
-    backgroundColor: "#191720",
+    backgroundColor: Theme.darkContainer,
   },
   lightThemeText: {
-    color: "#191720",
+    color: Theme.lightThemeText,
   },
   darkThemeText: {
-    color: "#fff",
+    color: Theme.darkThemeText,
   },
   buttonInactive: {
-    backgroundColor: "#191720",
+    backgroundColor: Theme.buttonInactive,
   },
   buttonActive: {
-    backgroundColor: "#008BC3",
+    backgroundColor: Theme.buttonActive,
   },
 });

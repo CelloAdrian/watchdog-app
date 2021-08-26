@@ -13,6 +13,7 @@ import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import backAction from "../utils/BackAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import Theme from "../utils/Theme"
 
 const Register = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -121,7 +122,6 @@ const styles = StyleSheet.create({
     justifyContent: "center",
   },
   TextInput: {
-    // For some reason, borderRadius only effects bottom one
     borderTopRightRadius: 20,
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
@@ -134,15 +134,15 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   lightContainer: {
-    backgroundColor: "#d0d0c0",
+    backgroundColor: Theme.lightContainer,
   },
   darkContainer: {
-    backgroundColor: "#191720",
+    backgroundColor: Theme.darkContainer,
   },
   lightThemeText: {
-    color: "#191720",
+    color: Theme.lightThemeText,
   },
   darkThemeText: {
-    color: "#fff",
+    color: Theme.darkThemeText,
   },
 });
