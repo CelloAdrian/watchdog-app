@@ -7,6 +7,7 @@ import {
   useColorScheme,
 } from "react-native";
 import { RightArrow } from "../utils/Icons";
+import Theme from "../utils/Theme";
 
 const Button = ({ ButtonText, onPress, disabled }: any) => {
   const colorScheme = useColorScheme();
@@ -16,6 +17,11 @@ const Button = ({ ButtonText, onPress, disabled }: any) => {
       ? styles.lightButtonContainer
       : styles.darkButtonContainer;
 
+  const themeButtonTextStyle =
+    colorScheme === "light"
+      ? styles.lightButtonThemeText
+      : styles.darkButtonThemeText;
+
   return (
     <View style={styles.SubmitButtonContainer}>
       <Pressable
@@ -23,7 +29,9 @@ const Button = ({ ButtonText, onPress, disabled }: any) => {
         onPress={onPress}
         disabled={disabled}
       >
-        <Text style={styles.SubmitButtonText}>{ButtonText}</Text>
+        <Text style={[styles.SubmitButtonText, themeButtonTextStyle]}>
+          {ButtonText}
+        </Text>
         <RightArrow height={15} width={15} />
       </Pressable>
     </View>
@@ -50,9 +58,15 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   lightButtonContainer: {
-    backgroundColor: "red",
+    backgroundColor: Theme.lightButtonContainer,
   },
   darkButtonContainer: {
-    backgroundColor: "#fff",
+    backgroundColor: Theme.darkButtonContainer,
+  },
+  lightButtonThemeText: {
+    color: Theme.lightButtonThemeText,
+  },
+  darkButtonThemeText: {
+    color: Theme.darkButtonThemeText,
   },
 });

@@ -13,7 +13,7 @@ import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import backAction from "../utils/BackAction";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import Theme from "../utils/Theme"
+import Theme from "../utils/Theme";
 
 const Register = ({ navigation }: any) => {
   const [name, setName] = useState("");
@@ -31,6 +31,8 @@ const Register = ({ navigation }: any) => {
     colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
   const themeContainerStyle =
     colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
+  const themeTextInputStyle =
+    colorScheme === "light" ? styles.lightTextInput : styles.darkTextInput;
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -64,13 +66,19 @@ const Register = ({ navigation }: any) => {
             value={name}
             mode="flat"
             onChangeText={(name) => setName(name)}
-            style={styles.TextInput}
+            style={[styles.TextInput, themeTextInputStyle]}
             left={<TextInput.Icon name="account" color="#7E7F8A" />}
             theme={{
               colors: {
-                primary: "white",
+                primary:
+                  colorScheme === "light"
+                    ? styles.lightThemeText.color
+                    : styles.darkThemeText.color,
                 placeholder: "#7E7F8A",
-                text: "white",
+                text:
+                  colorScheme === "light"
+                    ? styles.lightThemeText.color
+                    : styles.darkThemeText.color,
               },
             }}
           />
@@ -126,7 +134,6 @@ const styles = StyleSheet.create({
     borderTopLeftRadius: 20,
     borderBottomLeftRadius: 20,
     borderBottomRightRadius: 20,
-    backgroundColor: "#1E1C24",
     borderColor: "#7E7F8A",
     color: "red",
     borderWidth: 1,
@@ -144,5 +151,11 @@ const styles = StyleSheet.create({
   },
   darkThemeText: {
     color: Theme.darkThemeText,
+  },
+  lightTextInput: {
+    backgroundColor: Theme.textInputBackgroundLight,
+  },
+  darkTextInput: {
+    backgroundColor: Theme.textInputBackgroundDark,
   },
 });

@@ -64,11 +64,34 @@ const Homescreen = ({ navigation }: any) => {
   };
 
   const themeTextStyle =
-    colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
+    colorScheme === "light" 
+      ? styles.lightThemeText 
+      : styles.darkThemeText;
+
   const themeContainerStyle =
-    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
+    colorScheme === "light" 
+      ? styles.lightContainer 
+      : styles.darkContainer;
+
+  const themeButtonStyle =
+    colorScheme === "light"
+      ? styles.buttonInactiveLight
+      : styles.buttonInactiveDark;
+
+  const themeUtilityStyle =
+    colorScheme === "light"
+      ? styles.utilityContainerThemeLight
+      : styles.utilityContainerThemeDark;
+
+  const themeTitlebarStyle = 
+    colorScheme === "light" 
+      ? styles.lightThemeTitlebar
+      : styles.darkThemeTitlebar;
+
   const buttonActivatedStyle =
-    isArmed === false ? styles.buttonInactive : styles.buttonActive;
+    isArmed === false 
+      ? styles.buttonInactive 
+      : styles.buttonActive;
 
   useEffect(() => {
     getGreetingMessage();
@@ -105,6 +128,11 @@ const Homescreen = ({ navigation }: any) => {
         <View style={styles.ButtonContainer}>
           <LinearGradient
             colors={["rgba(42,84,112,0.9)", "rgba(76,65,119,0.9)"]}
+            // colors={[
+            //   colorScheme === "light"
+            //     ? ["rgba(28,216,210,0.8", "rgba(76,65,119,0.9"]
+            //     : ["rgba(42,84,112,0.9)", "rgba(76,65,119,0.9)"],
+            // ]}
             start={{ x: 0, y: 0 }}
             end={{ x: 1.0, y: 1.0 }}
             style={styles.Gradient}
@@ -112,8 +140,8 @@ const Homescreen = ({ navigation }: any) => {
             <Pressable
               style={
                 isArmed
-                  ? [styles.Button, buttonActivatedStyle]
-                  : [styles.Button2, buttonActivatedStyle]
+                  ? [styles.Button, themeButtonStyle, buttonActivatedStyle]
+                  : [styles.Button2, themeButtonStyle, buttonActivatedStyle]
               }
               onPress={toggleIsArmed}
             >
@@ -124,14 +152,14 @@ const Homescreen = ({ navigation }: any) => {
           </LinearGradient>
         </View>
         <View style={styles.UtilityContainer}>
-          <View style={styles.MotionSensorContainer}>
-            <View style={styles.Titlebar}>
+          <View style={[styles.SensorContainer, themeUtilityStyle]}>
+            <View style={[styles.Titlebar, themeTitlebarStyle]}>
               <Text style={styles.UtilityText}>MOTION SENSOR</Text>
             </View>
             <Text style={styles.MotionSensorFeedText}>Triggered at [TIME]</Text>
           </View>
-          <View style={styles.VideoFeedContainer}>
-            <View style={styles.Titlebar}>
+          <View style={[styles.VideoFeedContainer, themeUtilityStyle]}>
+            <View style={[styles.Titlebar, themeTitlebarStyle]}>
               <Text style={styles.UtilityText}>CAMERA</Text>
             </View>
             <View>
@@ -188,24 +216,33 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   ButtonContainer: {},
-  MotionSensorContainer: {
-    backgroundColor: "#1E1C24",
+  SensorContainer: {
     width: "100%",
     padding: 5,
     borderRadius: 5,
     marginBottom: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
   },
   Titlebar: {
-    backgroundColor: "#3B3941",
+    // backgroundColor: "#3B3941",
     padding: 5,
     borderRadius: 5,
   },
   VideoFeedContainer: {
-    backgroundColor: "#1C1C22",
+    // backgroundColor: "#1C1C22",
     width: "100%",
     padding: 5,
     borderRadius: 5,
     marginTop: 5,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 5 },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
   },
   Title: {
     fontSize: 24,
@@ -285,10 +322,26 @@ const styles = StyleSheet.create({
   darkThemeText: {
     color: Theme.darkThemeText,
   },
-  buttonInactive: {
-    backgroundColor: Theme.buttonInactive,
+  buttonInactive: {},
+  buttonInactiveLight: {
+    backgroundColor: Theme.buttonInactiveLight,
+  },
+  buttonInactiveDark: {
+    backgroundColor: Theme.buttonInactiveDark,
   },
   buttonActive: {
     backgroundColor: Theme.buttonActive,
+  },
+  utilityContainerThemeLight: {
+    backgroundColor: Theme.utilityContainerThemeLight,
+  },
+  utilityContainerThemeDark: {
+    backgroundColor: Theme.utilityContainerThemeDark,
+  },
+  lightThemeTitlebar: {
+    backgroundColor: Theme.lightThemeTitlebar,
+  },
+  darkThemeTitlebar: {
+    backgroundColor: Theme.darkThemeTitlebar,
   },
 });
