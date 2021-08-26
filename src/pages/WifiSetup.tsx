@@ -14,12 +14,14 @@ import backAction from "../utils/BackAction";
 import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import { TextInput } from "react-native-paper";
+import { BleManager } from "react-native-ble-plx";
 
 const WifiSetup = ({ navigation }: any) => {
   const colorScheme = useColorScheme();
   const [wifiName, setWifiName] = useState("");
   const [wifiPassword, setWifiPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
+  const manager = new BleManager();
 
   // const initializeWifi = async () => {
   //   try {
@@ -55,14 +57,52 @@ const WifiSetup = ({ navigation }: any) => {
     }
   };
 
+  const scanAndConnect = () => {
+    try {
+      console.log("Scanning");
+      manager.startDeviceScan(null, null, async (err, device) => {
+        console.log(device?.id);
+        if (device?.name === "Watchdog Alarm") {
+          manager.stopDeviceScan();
+          console.log("Device ID: ", device.id);
+          console.log("Device Name: ", device.name);
+          console.log("Device RSSI", device.rssi);
+          console.log("Device MTU: ", device.mtu);
+
+          device
+            .connect()
+            .then((device) => {
+              const services = device.discoverAllServicesAndCharacteristics();
+              console.log(services);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        }
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
     requestLocationPermission();
 
+    manager.onStateChange(() => {
+      const subscription = manager.onStateChange((state) => {
+        if (state === "PoweredOn") {
+          scanAndConnect();
+          subscription.remove();
+        }
+      }, true);
+      return () => subscription.remove();
+    });
+
     return () => {
       BackHandler.removeEventListener("hardwareBackPress", backAction);
     };
-  }, []);
+  }, [manager]);
 
   const themeTextStyle =
     colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
