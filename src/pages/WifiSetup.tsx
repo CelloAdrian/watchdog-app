@@ -9,6 +9,8 @@ import {
   PermissionsAndroid,
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+// import * as IntentLauncher from "expo-intent-launcher";
 import { StatusBar } from "expo-status-bar";
 import backAction from "../utils/BackAction";
 import { LeftArrowCurve } from "../utils/Icons";
@@ -32,6 +34,16 @@ const WifiSetup = ({ navigation }: any) => {
   //     alert(err);
   //   }
   // }
+
+  const saveWifiSetupScreenState = async () => {
+    try {
+      if (wifiName || wifiPassword !== null) {
+        await AsyncStorage.setItem("finished_wifi_setup", wifiName);
+      }
+    } catch (err) {
+      alert(err);
+    }
+  };
 
   const requestLocationPermission = async () => {
     try {
@@ -97,6 +109,7 @@ const WifiSetup = ({ navigation }: any) => {
     () => {
       BackHandler.addEventListener("hardwareBackPress", backAction);
       requestLocationPermission();
+      saveWifiSetupScreenState();
 
       // manager.onStateChange(() => {
       //   const subscription = manager.onStateChange((state) => {

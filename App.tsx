@@ -1,7 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import { View, ActivityIndicator, useColorScheme, StyleSheet } from "react-native";
+import {
+  View,
+  ActivityIndicator,
+  useColorScheme,
+  StyleSheet,
+} from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Register from "./src/pages/Register";
 import WifiSetup from "./src/pages/WifiSetup";
@@ -20,9 +25,11 @@ const Stack = createNativeStackNavigator();
 export default function App() {
   const [loading, setLoading] = useState(true);
   const [isFirstTime, setIsFirstTime] = useState(false);
+  const [finishedWifiSetup, setFinishedWifiSetup] = useState(false);
   const colorScheme = useColorScheme();
 
-  const themeContainerStyle = colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
+  const themeContainerStyle =
+    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   const checkIfFirstTime = async () => {
     try {
@@ -38,8 +45,21 @@ export default function App() {
     }
   };
 
+  const checkIfFinishedSetup = async () => {
+    try {
+      const value = await AsyncStorage.getItem("finished_wifi_setup");
+
+      if (value !== null) {
+        setFinishedWifiSetup(true);
+      }
+    } catch (err) {
+      console.log("Error @checkIfFinishedSetup: ", err);
+    }
+  };
+
   useEffect(() => {
     checkIfFirstTime();
+    checkIfFinishedSetup();
   }, []);
 
   return (
@@ -54,6 +74,11 @@ export default function App() {
             <Stack.Screen name="Loading" component={Loading} />
           ) : isFirstTime ? (
             <>
+              <Stack.Screen name="Homescreen" component={Homescreen} />
+            </>
+          ) : finishedWifiSetup ? (
+            <>
+              <Stack.Screen name="WifiSetup" component={WifiSetup} />
               <Stack.Screen name="Homescreen" component={Homescreen} />
             </>
           ) : (
@@ -79,4 +104,4 @@ const styles = StyleSheet.create({
   darkContainer: {
     backgroundColor: "#191720",
   },
-})
+});
