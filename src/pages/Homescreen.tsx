@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   View,
   Text,
@@ -12,6 +18,7 @@ import { HamburgerMenu } from "../utils/Icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Video } from "expo-av";
 import Theme from "../utils/Theme";
+import BottomSheet, { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
 
 function useToggle(initialValue = false) {
   const [value, setValue] = useState<boolean>(initialValue);
@@ -29,6 +36,28 @@ const Homescreen = ({ navigation }: any) => {
   const [greeting, setGreeting] = useState("");
   const [name, setName] = useState("");
   const video = useRef<Video>(null);
+  // ref
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  // variables
+  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
+
+  // callbacks
+  const handleSheetChanges = useCallback((index: number) => {
+    console.log("handleSheetChanges", index);
+  }, []);
+
+  // renders
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop
+        {...props}
+        disappearsOnIndex={1}
+        appearsOnIndex={2}
+      />
+    ),
+    []
+  );
 
   const getGreetingMessage = () => {
     // Good morning (12am-12pm)
@@ -64,14 +93,10 @@ const Homescreen = ({ navigation }: any) => {
   };
 
   const themeTextStyle =
-    colorScheme === "light" 
-      ? styles.lightThemeText 
-      : styles.darkThemeText;
+    colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
 
   const themeContainerStyle =
-    colorScheme === "light" 
-      ? styles.lightContainer 
-      : styles.darkContainer;
+    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   const themeButtonStyle =
     colorScheme === "light"
@@ -83,15 +108,13 @@ const Homescreen = ({ navigation }: any) => {
       ? styles.utilityContainerThemeLight
       : styles.utilityContainerThemeDark;
 
-  const themeTitlebarStyle = 
-    colorScheme === "light" 
+  const themeTitlebarStyle =
+    colorScheme === "light"
       ? styles.lightThemeTitlebar
       : styles.darkThemeTitlebar;
 
   const buttonActivatedStyle =
-    isArmed === false 
-      ? styles.buttonInactive 
-      : styles.buttonActive;
+    isArmed === false ? styles.buttonInactive : styles.buttonActive;
 
   useEffect(() => {
     getGreetingMessage();
@@ -107,6 +130,17 @@ const Homescreen = ({ navigation }: any) => {
   return (
     <View style={[styles.Homescreen, themeContainerStyle]}>
       <StatusBar style="auto" />
+      <BottomSheet
+        ref={bottomSheetRef}
+        index={1}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+        onChange={handleSheetChanges}
+      >
+        <View style={{ flex: 1, alignItems: "center" }}>
+          <Text>Awesome 🎉</Text>
+        </View>
+      </BottomSheet>
       <View style={styles.NavigationContainer}>
         <Pressable
           onPress={() => {
@@ -127,12 +161,11 @@ const Homescreen = ({ navigation }: any) => {
         </View>
         <View style={styles.ButtonContainer}>
           <LinearGradient
-            colors={["rgba(42,84,112,0.9)", "rgba(76,65,119,0.9)"]}
-            // colors={[
-            //   colorScheme === "light"
-            //     ? ["rgba(28,216,210,0.8", "rgba(76,65,119,0.9"]
-            //     : ["rgba(42,84,112,0.9)", "rgba(76,65,119,0.9)"],
-            // ]}
+            colors={
+              colorScheme === "light"
+                ? ["rgba(97, 67, 133, 0.9)", "rgba(81, 99, 149, 0.9)"]
+                : ["rgba(42, 84, 112, 0.9)", "rgba(76, 65, 119, 0.9)"]
+            }
             start={{ x: 0, y: 0 }}
             end={{ x: 1.0, y: 1.0 }}
             style={styles.Gradient}
