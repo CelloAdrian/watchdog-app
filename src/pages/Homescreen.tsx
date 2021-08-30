@@ -11,6 +11,8 @@ import {
   Pressable,
   StyleSheet,
   useColorScheme,
+  StyleProp,
+  ViewStyle,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
@@ -18,7 +20,8 @@ import { HamburgerMenu } from "../utils/Icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { Video } from "expo-av";
 import Theme from "../utils/Theme";
-import BottomSheet, { BottomSheetBackdrop, BottomSheetModal } from "@gorhom/bottom-sheet";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import CustomHandle from "../components/Handle";
 
 function useToggle(initialValue = false) {
   const [value, setValue] = useState<boolean>(initialValue);
@@ -36,26 +39,33 @@ const Homescreen = ({ navigation }: any) => {
   const [greeting, setGreeting] = useState("");
   const [name, setName] = useState("");
   const video = useRef<Video>(null);
-  // ref
+
+  const [backdropPressBehavior] = useState<"none" | "close" | "collapse">(
+    "collapse"
+  );
+
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  // variables
-  const snapPoints = useMemo(() => ["25%", "50%", "75%"], []);
+  const snapPoints = useMemo(() => ["5%", "75%"], []);
 
-  // callbacks
-  const handleSheetChanges = useCallback((index: number) => {
-    console.log("handleSheetChanges", index);
+  const handleExpandPress = useCallback(() => {
+    bottomSheetRef.current?.expand();
+  }, []);
+  const handleCollapsePress = useCallback(() => {
+    bottomSheetRef.current?.collapse();
+  }, []);
+  const handleClosePress = useCallback(() => {
+    bottomSheetRef.current?.close();
   }, []);
 
-  // renders
   const renderBackdrop = useCallback(
     (props) => (
-      <BottomSheetBackdrop
-        {...props}
-        disappearsOnIndex={1}
-        appearsOnIndex={2}
-      />
+      <BottomSheetBackdrop {...props} pressBehavior={backdropPressBehavior} />
     ),
+    [backdropPressBehavior]
+  );
+  const renderHeaderHandle = useCallback(
+    (props) => <CustomHandle {...props} children="Backdrop Example" />,
     []
   );
 
@@ -130,18 +140,67 @@ const Homescreen = ({ navigation }: any) => {
   return (
     <View style={[styles.Homescreen, themeContainerStyle]}>
       <StatusBar style="auto" />
+      <Pressable onPress={handleExpandPress}>
+        <Text>Expand</Text>
+      </Pressable>
+      <Pressable onPress={handleCollapsePress}>
+        <Text>Collapse</Text>
+      </Pressable>
+      <Pressable onPress={handleClosePress}>
+        <Text>Close</Text>
+      </Pressable>
       <BottomSheet
         ref={bottomSheetRef}
-        index={1}
         snapPoints={snapPoints}
         backdropComponent={renderBackdrop}
-        onChange={handleSheetChanges}
+        handleComponent={renderHeaderHandle}
+        backgroundComponent={null}
       >
-        <View style={{ flex: 1, alignItems: "center" }}>
-          <Text>Awesome 🎉</Text>
+        <View
+          style={{
+            backgroundColor: "red",
+            flex: 1,
+            paddingLeft: 20,
+            paddingRight: 20,
+          }}
+        >
+          <View style={styles.UtilityContainer}>
+            <View style={[styles.SensorContainer, themeUtilityStyle]}>
+              <View style={[styles.Titlebar, themeTitlebarStyle]}>
+                <Text style={styles.UtilityText}>MOTION SENSOR</Text>
+              </View>
+              <Text style={styles.MotionSensorFeedText}>
+                Triggered at [TIME]
+              </Text>
+            </View>
+            <View style={[styles.SensorContainer, themeUtilityStyle]}>
+              <View style={[styles.Titlebar, themeTitlebarStyle]}>
+                <Text style={styles.UtilityText}>CAMERA</Text>
+              </View>
+              <View>
+                <Video
+                  ref={video}
+                  style={styles.Video}
+                  source={{
+                    // HLS livestream example
+                    uri: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
+                  }}
+                  resizeMode="contain"
+                  shouldPlay
+                />
+              </View>
+            </View>
+          </View>
         </View>
       </BottomSheet>
-      <View style={styles.NavigationContainer}>
+      {/* <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        handleComponent={renderCustomHandle}
+      >
+        <Text>🗿</Text>
+      </BottomSheet> */}
+      {/* <View style={styles.NavigationContainer}>
         <Pressable
           onPress={() => {
             navigation.openDrawer();
@@ -184,32 +243,7 @@ const Homescreen = ({ navigation }: any) => {
             </Pressable>
           </LinearGradient>
         </View>
-        <View style={styles.UtilityContainer}>
-          <View style={[styles.SensorContainer, themeUtilityStyle]}>
-            <View style={[styles.Titlebar, themeTitlebarStyle]}>
-              <Text style={styles.UtilityText}>MOTION SENSOR</Text>
-            </View>
-            <Text style={styles.MotionSensorFeedText}>Triggered at [TIME]</Text>
-          </View>
-          <View style={[styles.VideoFeedContainer, themeUtilityStyle]}>
-            <View style={[styles.Titlebar, themeTitlebarStyle]}>
-              <Text style={styles.UtilityText}>CAMERA</Text>
-            </View>
-            <View>
-              <Video
-                ref={video}
-                style={styles.Video}
-                source={{
-                  // HLS livestream example
-                  uri: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
-                }}
-                resizeMode="contain"
-                shouldPlay
-              />
-            </View>
-          </View>
-        </View>
-      </View>
+      </View> */}
       {/* DEV ONLY */}
       <Pressable
         onPress={() => {
@@ -248,12 +282,12 @@ const styles = StyleSheet.create({
   UtilityContainer: {
     width: "100%",
   },
-  ButtonContainer: {},
   SensorContainer: {
     width: "100%",
     padding: 5,
     borderRadius: 5,
     marginBottom: 5,
+    marginTop: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.34,
@@ -264,18 +298,6 @@ const styles = StyleSheet.create({
     // backgroundColor: "#3B3941",
     padding: 5,
     borderRadius: 5,
-  },
-  VideoFeedContainer: {
-    // backgroundColor: "#1C1C22",
-    width: "100%",
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,
   },
   Title: {
     fontSize: 24,
