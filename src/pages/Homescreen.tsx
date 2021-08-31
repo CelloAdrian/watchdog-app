@@ -16,12 +16,14 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
-import { HamburgerMenu } from "../utils/Icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AntDesign } from "@expo/vector-icons";
 import { Video } from "expo-av";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Theme from "../utils/Theme";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { HamburgerMenu } from "../utils/Icons";
 import CustomHandle from "../components/Handle";
+import SensorContainer from "../components/SensorContainer";
 
 function useToggle(initialValue = false) {
   const [value, setValue] = useState<boolean>(initialValue);
@@ -140,7 +142,7 @@ const Homescreen = ({ navigation }: any) => {
   return (
     <View style={[styles.Homescreen, themeContainerStyle]}>
       <StatusBar style="auto" />
-      <Pressable onPress={handleExpandPress}>
+      {/* <Pressable onPress={handleExpandPress}>
         <Text>Expand</Text>
       </Pressable>
       <Pressable onPress={handleCollapsePress}>
@@ -148,59 +150,8 @@ const Homescreen = ({ navigation }: any) => {
       </Pressable>
       <Pressable onPress={handleClosePress}>
         <Text>Close</Text>
-      </Pressable>
-      <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        backdropComponent={renderBackdrop}
-        handleComponent={renderHeaderHandle}
-        backgroundComponent={null}
-      >
-        <View
-          style={{
-            backgroundColor: "red",
-            flex: 1,
-            paddingLeft: 20,
-            paddingRight: 20,
-          }}
-        >
-          <View style={styles.UtilityContainer}>
-            <View style={[styles.SensorContainer, themeUtilityStyle]}>
-              <View style={[styles.Titlebar, themeTitlebarStyle]}>
-                <Text style={styles.UtilityText}>MOTION SENSOR</Text>
-              </View>
-              <Text style={styles.MotionSensorFeedText}>
-                Triggered at [TIME]
-              </Text>
-            </View>
-            <View style={[styles.SensorContainer, themeUtilityStyle]}>
-              <View style={[styles.Titlebar, themeTitlebarStyle]}>
-                <Text style={styles.UtilityText}>CAMERA</Text>
-              </View>
-              <View>
-                <Video
-                  ref={video}
-                  style={styles.Video}
-                  source={{
-                    // HLS livestream example
-                    uri: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
-                  }}
-                  resizeMode="contain"
-                  shouldPlay
-                />
-              </View>
-            </View>
-          </View>
-        </View>
-      </BottomSheet>
-      {/* <BottomSheet
-        ref={bottomSheetRef}
-        snapPoints={snapPoints}
-        handleComponent={renderCustomHandle}
-      >
-        <Text>🗿</Text>
-      </BottomSheet> */}
-      {/* <View style={styles.NavigationContainer}>
+      </Pressable> */}
+      <View style={styles.NavigationContainer}>
         <Pressable
           onPress={() => {
             navigation.openDrawer();
@@ -218,7 +169,7 @@ const Homescreen = ({ navigation }: any) => {
             Everything is OK.
           </Text>
         </View>
-        <View style={styles.ButtonContainer}>
+        <View>
           <LinearGradient
             colors={
               colorScheme === "light"
@@ -243,7 +194,54 @@ const Homescreen = ({ navigation }: any) => {
             </Pressable>
           </LinearGradient>
         </View>
-      </View> */}
+        <View
+          style={{
+            width: "100%",
+            right: 0,
+            alignItems: "flex-end",
+          }}
+        >
+          <Text>
+            open-source at <AntDesign name="github" size={18} color="black" />
+          </Text>
+        </View>
+      </View>
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+        handleComponent={renderHeaderHandle}
+        backgroundComponent={null}
+      >
+        <View
+          style={[
+            { flex: 1, paddingLeft: 20, paddingRight: 20 },
+            themeContainerStyle,
+          ]}
+        >
+          <View style={styles.UtilityContainer}>
+            <SensorContainer sensorName="MOTION SENSOR">
+              <Text style={styles.SensorFeedText}>Hello</Text>
+            </SensorContainer>
+            <SensorContainer sensorName="GLASSBREAK SENSOR">
+              <Text style={styles.SensorFeedText}>Hello</Text>
+            </SensorContainer>
+            <SensorContainer sensorName="CAMERA">
+              <Video
+                ref={video}
+                style={styles.Video}
+                isMuted={true}
+                source={{
+                  // HLS livestream example
+                  uri: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
+                }}
+                resizeMode="contain"
+                shouldPlay
+              />
+            </SensorContainer>
+          </View>
+        </View>
+      </BottomSheet>
       {/* DEV ONLY */}
       <Pressable
         onPress={() => {
@@ -311,7 +309,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#9A9A9B",
   },
-  MotionSensorFeedText: {
+  SensorFeedText: {
     paddingTop: 5,
     paddingLeft: 5,
     paddingBottom: 5,

@@ -1,16 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { createDrawerNavigator } from "@react-navigation/drawer";
 import {
   View,
   ActivityIndicator,
   useColorScheme,
   StyleSheet,
+  Dimensions,
+  Text
 } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Register from "./src/pages/Register";
 import WifiSetup from "./src/pages/WifiSetup";
 import Homescreen from "./src/pages/Homescreen";
+import Theme from "./src/utils/Theme";
 
 const Loading = () => {
   return (
@@ -21,6 +25,7 @@ const Loading = () => {
 };
 
 const Stack = createNativeStackNavigator();
+const Drawer = createDrawerNavigator();
 
 export default function App() {
   const [loading, setLoading] = useState(true);
@@ -30,6 +35,27 @@ export default function App() {
 
   const themeContainerStyle =
     colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
+
+  const drawerContainerStyle =
+    colorScheme === "light" ? Theme.lightContainer : Theme.darkContainer;
+
+  function HomescreenDrawer() {
+    const width = Dimensions.get("window").width;
+
+    return (
+      <Drawer.Navigator
+        screenOptions={{
+          headerShown: false,
+          drawerStyle: {
+            backgroundColor: drawerContainerStyle,
+            width: width / 2,
+          },
+        }}
+      >
+        <Drawer.Screen name="Home" component={Homescreen} />
+      </Drawer.Navigator>
+    );
+  }
 
   const checkIfFirstTime = async () => {
     try {
@@ -74,18 +100,18 @@ export default function App() {
             <Stack.Screen name="Loading" component={Loading} />
           ) : isFirstTime ? (
             <>
-              <Stack.Screen name="Homescreen" component={Homescreen} />
+              <Stack.Screen name="Homescreen" component={HomescreenDrawer} />
             </>
           ) : finishedWifiSetup ? (
             <>
               <Stack.Screen name="WifiSetup" component={WifiSetup} />
-              <Stack.Screen name="Homescreen" component={Homescreen} />
+              <Stack.Screen name="Homescreen" component={HomescreenDrawer} />
             </>
           ) : (
             <>
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="WifiSetup" component={WifiSetup} />
-              <Stack.Screen name="Homescreen" component={Homescreen} />
+              <Stack.Screen name="Homescreen" component={HomescreenDrawer} />
             </>
           )}
         </Stack.Navigator>

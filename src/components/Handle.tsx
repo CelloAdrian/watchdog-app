@@ -1,14 +1,21 @@
-import React, { useMemo } from 'react';
-import { StyleProp, StyleSheet, Text, ViewStyle } from 'react-native';
-import { BottomSheetHandleProps } from '@gorhom/bottom-sheet';
+import React, { useMemo } from "react";
+import {
+  StyleProp,
+  StyleSheet,
+  Text,
+  ViewStyle,
+  useColorScheme,
+} from "react-native";
+import { BottomSheetHandleProps } from "@gorhom/bottom-sheet";
 import Animated, {
   Extrapolate,
   interpolate,
   useAnimatedStyle,
   useDerivedValue,
-} from 'react-native-reanimated';
-import { toRad } from 'react-native-redash';
-import { transformOrigin } from '../utils/TransformOrigin';
+} from "react-native-reanimated";
+import { toRad } from "react-native-redash";
+import { transformOrigin } from "../utils/TransformOrigin";
+import Theme from "../utils/Theme";
 
 interface CustomHandleProps extends BottomSheetHandleProps {
   title: string;
@@ -95,10 +102,15 @@ const CustomHandle: React.FC<CustomHandleProps> = ({
   });
   //#endregion
 
+  const colorScheme = useColorScheme();
+
+  const themeContainerStyle =
+    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
+
   // render
   return (
     <Animated.View
-      style={[containerStyle, containerAnimatedStyle]}
+      style={[containerStyle, containerAnimatedStyle, themeContainerStyle]}
       renderToHardwareTextureAndroid={true}
     >
       <Animated.View style={[leftIndicatorStyle, leftIndicatorAnimatedStyle]} />
@@ -114,21 +126,20 @@ export default CustomHandle;
 
 const styles = StyleSheet.create({
   container: {
-    alignContent: 'center',
-    alignItems: 'center',
+    alignContent: "center",
+    alignItems: "center",
     paddingBottom: 0,
     paddingHorizontal: 16,
-    backgroundColor: "red",
     // borderBottomWidth: 1,
     // borderBottomColor: 'rgba(0,0,0,0.125)',
     zIndex: 99999,
   },
   indicator: {
     marginTop: 10,
-    position: 'absolute',
+    position: "absolute",
     width: 10,
     height: 4,
-    backgroundColor: '#999',
+    backgroundColor: "#999",
   },
   leftIndicator: {
     borderTopStartRadius: 2,
@@ -142,7 +153,13 @@ const styles = StyleSheet.create({
     marginTop: 26,
     fontSize: 20,
     lineHeight: 20,
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
+  },
+  lightContainer: {
+    backgroundColor: Theme.lightContainer,
+  },
+  darkContainer: {
+    backgroundColor: Theme.darkContainer,
   },
 });
