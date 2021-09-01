@@ -62,22 +62,23 @@ const Homescreen = ({ navigation }: any) => {
   );
 
   const getGreetingMessage = () => {
-    // Good morning (12am-12pm)
-    // Good afternoon (12pm - 4pm)
-    // Good evening (4pm to 9pm)
-    // Good night ( 9pm to 6am)
+    // Good morning (5am-11am) 5 - 11
+    // Good afternoon (11am-4pm) 11 - 16
+    // Good evening (4pm-8pm) 16 - 20
+    // Good night (8pm-5am) 20 - 5
 
     const timeOfDay = new Date().getHours();
+    console.log(timeOfDay)
 
-    timeOfDay >= 0 && timeOfDay < 12
+    timeOfDay >= 5 && timeOfDay < 11
       ? setGreeting("Good morning")
-      : timeOfDay >= 12 && timeOfDay < 16
+      : timeOfDay >= 11 && timeOfDay < 16
       ? setGreeting("Good afternoon")
-      : timeOfDay >= 16 && timeOfDay < 21
+      : timeOfDay >= 16 && timeOfDay < 20
       ? setGreeting("Good evening")
-      : timeOfDay >= 21 && timeOfDay < 24
+      : timeOfDay >= 20 || timeOfDay < 5
       ? setGreeting("Good night")
-      : console.log("What happened?");
+      : setGreeting("Good day")
 
     return greeting;
   };
