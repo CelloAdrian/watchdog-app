@@ -11,8 +11,6 @@ import {
   Pressable,
   StyleSheet,
   useColorScheme,
-  StyleProp,
-  ViewStyle,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
@@ -105,16 +103,6 @@ const Homescreen = ({ navigation }: any) => {
     colorScheme === "light"
       ? styles.buttonInactiveLight
       : styles.buttonInactiveDark;
-
-  const themeUtilityStyle =
-    colorScheme === "light"
-      ? styles.utilityContainerThemeLight
-      : styles.utilityContainerThemeDark;
-
-  const themeTitlebarStyle =
-    colorScheme === "light"
-      ? styles.lightThemeTitlebar
-      : styles.darkThemeTitlebar;
 
   const buttonActivatedStyle =
     isArmed === false ? styles.buttonInactive : styles.buttonActive;
@@ -375,17 +363,5 @@ const styles = StyleSheet.create({
   },
   buttonActive: {
     backgroundColor: Theme.buttonActive,
-  },
-  utilityContainerThemeLight: {
-    backgroundColor: Theme.utilityContainerThemeLight,
-  },
-  utilityContainerThemeDark: {
-    backgroundColor: Theme.utilityContainerThemeDark,
-  },
-  lightThemeTitlebar: {
-    backgroundColor: Theme.lightThemeTitlebar,
-  },
-  darkThemeTitlebar: {
-    backgroundColor: Theme.darkThemeTitlebar,
   },
 });
