@@ -50,16 +50,6 @@ const Homescreen = ({ navigation }: any) => {
 
   const snapPoints = useMemo(() => ["5%", "75%"], []);
 
-  const handleExpandPress = useCallback(() => {
-    bottomSheetRef.current?.expand();
-  }, []);
-  const handleCollapsePress = useCallback(() => {
-    bottomSheetRef.current?.collapse();
-  }, []);
-  const handleClosePress = useCallback(() => {
-    bottomSheetRef.current?.close();
-  }, []);
-
   const renderBackdrop = useCallback(
     (props) => (
       <BottomSheetBackdrop {...props} pressBehavior={backdropPressBehavior} />

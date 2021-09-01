@@ -26,15 +26,6 @@ const WifiSetup = ({ navigation }: any) => {
   const [showPassword, setShowPassword] = useState(true);
   // const manager = new BleManager();
 
-  // const initializeWifi = async () => {
-  //   try {
-  //     const SSID = await WifiManager.getCurrentWifiSSID();
-  //     console.log(SSID);
-  //   } catch(err) {
-  //     alert(err);
-  //   }
-  // }
-
   const saveWifiSetupScreenState = async () => {
     try {
       if (wifiName || wifiPassword !== null) {
