@@ -1,4 +1,10 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  useCallback,
+  useMemo,
+} from "react";
 import {
   View,
   Text,
@@ -8,10 +14,14 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
-import { HamburgerMenu } from "../utils/Icons";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import Constants from 'expo-constants';
 import { Video } from "expo-av";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import Theme from "../utils/Theme";
+import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
+import { HamburgerMenu } from "../utils/Icons";
+import CustomHandle from "../components/Handle";
+import SensorContainer from "../components/SensorContainer";
 
 function useToggle(initialValue = false) {
   const [value, setValue] = useState<boolean>(initialValue);
@@ -30,23 +40,42 @@ const Homescreen = ({ navigation }: any) => {
   const [name, setName] = useState("");
   const video = useRef<Video>(null);
 
+  const [backdropPressBehavior] = useState<"none" | "close" | "collapse">(
+    "collapse"
+  );
+
+  const bottomSheetRef = useRef<BottomSheet>(null);
+
+  const snapPoints = useMemo(() => ["5%", "75%"], []);
+
+  const renderBackdrop = useCallback(
+    (props) => (
+      <BottomSheetBackdrop {...props} pressBehavior={backdropPressBehavior} />
+    ),
+    [backdropPressBehavior]
+  );
+  const renderHeaderHandle = useCallback(
+    (props) => <CustomHandle {...props} children="Backdrop Example" />,
+    []
+  );
+
   const getGreetingMessage = () => {
-    // Good morning (12am-12pm)
-    // Good afternoon (12pm - 4pm)
-    // Good evening (4pm to 9pm)
-    // Good night ( 9pm to 6am)
+    // Good morning (5am-11am) 5 - 11
+    // Good afternoon (11am-4pm) 11 - 16
+    // Good evening (4pm-8pm) 16 - 20
+    // Good night (8pm-5am) 20 - 5
 
     const timeOfDay = new Date().getHours();
 
-    timeOfDay >= 0 && timeOfDay < 12
+    timeOfDay >= 5 && timeOfDay < 11
       ? setGreeting("Good morning")
-      : timeOfDay >= 12 && timeOfDay < 16
+      : timeOfDay >= 11 && timeOfDay < 16
       ? setGreeting("Good afternoon")
-      : timeOfDay >= 16 && timeOfDay < 21
+      : timeOfDay >= 16 && timeOfDay < 20
       ? setGreeting("Good evening")
-      : timeOfDay >= 21 && timeOfDay < 24
+      : timeOfDay >= 20 || timeOfDay < 5
       ? setGreeting("Good night")
-      : console.log("What happened?");
+      : setGreeting("Good day")
 
     return greeting;
   };
@@ -64,34 +93,18 @@ const Homescreen = ({ navigation }: any) => {
   };
 
   const themeTextStyle =
-    colorScheme === "light" 
-      ? styles.lightThemeText 
-      : styles.darkThemeText;
+    colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
 
   const themeContainerStyle =
-    colorScheme === "light" 
-      ? styles.lightContainer 
-      : styles.darkContainer;
+    colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
 
   const themeButtonStyle =
     colorScheme === "light"
       ? styles.buttonInactiveLight
       : styles.buttonInactiveDark;
 
-  const themeUtilityStyle =
-    colorScheme === "light"
-      ? styles.utilityContainerThemeLight
-      : styles.utilityContainerThemeDark;
-
-  const themeTitlebarStyle = 
-    colorScheme === "light" 
-      ? styles.lightThemeTitlebar
-      : styles.darkThemeTitlebar;
-
   const buttonActivatedStyle =
-    isArmed === false 
-      ? styles.buttonInactive 
-      : styles.buttonActive;
+    isArmed === false ? styles.buttonInactive : styles.buttonActive;
 
   useEffect(() => {
     getGreetingMessage();
@@ -107,6 +120,15 @@ const Homescreen = ({ navigation }: any) => {
   return (
     <View style={[styles.Homescreen, themeContainerStyle]}>
       <StatusBar style="auto" />
+      {/* <Pressable onPress={handleExpandPress}>
+        <Text>Expand</Text>
+      </Pressable>
+      <Pressable onPress={handleCollapsePress}>
+        <Text>Collapse</Text>
+      </Pressable>
+      <Pressable onPress={handleClosePress}>
+        <Text>Close</Text>
+      </Pressable> */}
       <View style={styles.NavigationContainer}>
         <Pressable
           onPress={() => {
@@ -125,14 +147,13 @@ const Homescreen = ({ navigation }: any) => {
             Everything is OK.
           </Text>
         </View>
-        <View style={styles.ButtonContainer}>
+        <View>
           <LinearGradient
-            colors={["rgba(42,84,112,0.9)", "rgba(76,65,119,0.9)"]}
-            // colors={[
-            //   colorScheme === "light"
-            //     ? ["rgba(28,216,210,0.8", "rgba(76,65,119,0.9"]
-            //     : ["rgba(42,84,112,0.9)", "rgba(76,65,119,0.9)"],
-            // ]}
+            colors={
+              colorScheme === "light"
+                ? ["rgba(97, 67, 133, 0.9)", "rgba(81, 99, 149, 0.9)"]
+                : ["rgba(42, 84, 112, 0.9)", "rgba(76, 65, 119, 0.9)"]
+            }
             start={{ x: 0, y: 0 }}
             end={{ x: 1.0, y: 1.0 }}
             style={styles.Gradient}
@@ -151,21 +172,41 @@ const Homescreen = ({ navigation }: any) => {
             </Pressable>
           </LinearGradient>
         </View>
-        <View style={styles.UtilityContainer}>
-          <View style={[styles.SensorContainer, themeUtilityStyle]}>
-            <View style={[styles.Titlebar, themeTitlebarStyle]}>
-              <Text style={styles.UtilityText}>MOTION SENSOR</Text>
-            </View>
-            <Text style={styles.MotionSensorFeedText}>Triggered at [TIME]</Text>
-          </View>
-          <View style={[styles.VideoFeedContainer, themeUtilityStyle]}>
-            <View style={[styles.Titlebar, themeTitlebarStyle]}>
-              <Text style={styles.UtilityText}>CAMERA</Text>
-            </View>
-            <View>
+        <View
+          style={{
+            width: "100%",
+            right: 0,
+            alignItems: "flex-end",
+          }}
+        >
+          <Text style={{ fontSize: 12, color:"#434C5E" }}>{Constants.manifest?.version}</Text>
+        </View>
+      </View>
+      <BottomSheet
+        ref={bottomSheetRef}
+        snapPoints={snapPoints}
+        backdropComponent={renderBackdrop}
+        handleComponent={renderHeaderHandle}
+        backgroundComponent={null}
+      >
+        <View
+          style={[
+            { flex: 1, paddingLeft: 20, paddingRight: 20 },
+            themeContainerStyle,
+          ]}
+        >
+          <View style={styles.UtilityContainer}>
+            <SensorContainer sensorName="MOTION SENSOR">
+              <Text style={styles.SensorFeedText}>Hello</Text>
+            </SensorContainer>
+            <SensorContainer sensorName="GLASSBREAK SENSOR">
+              <Text style={styles.SensorFeedText}>Hello</Text>
+            </SensorContainer>
+            <SensorContainer sensorName="CAMERA">
               <Video
                 ref={video}
                 style={styles.Video}
+                isMuted={true}
                 source={{
                   // HLS livestream example
                   uri: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
@@ -173,10 +214,10 @@ const Homescreen = ({ navigation }: any) => {
                 resizeMode="contain"
                 shouldPlay
               />
-            </View>
+            </SensorContainer>
           </View>
         </View>
-      </View>
+      </BottomSheet>
       {/* DEV ONLY */}
       <Pressable
         onPress={() => {
@@ -215,12 +256,12 @@ const styles = StyleSheet.create({
   UtilityContainer: {
     width: "100%",
   },
-  ButtonContainer: {},
   SensorContainer: {
     width: "100%",
     padding: 5,
     borderRadius: 5,
     marginBottom: 5,
+    marginTop: 5,
     shadowColor: "#000",
     shadowOffset: { width: 0, height: 5 },
     shadowOpacity: 0.34,
@@ -231,18 +272,6 @@ const styles = StyleSheet.create({
     // backgroundColor: "#3B3941",
     padding: 5,
     borderRadius: 5,
-  },
-  VideoFeedContainer: {
-    // backgroundColor: "#1C1C22",
-    width: "100%",
-    padding: 5,
-    borderRadius: 5,
-    marginTop: 5,
-    shadowColor: "#000",
-    shadowOffset: { width: 0, height: 5 },
-    shadowOpacity: 0.34,
-    shadowRadius: 6.27,
-    elevation: 10,
   },
   Title: {
     fontSize: 24,
@@ -256,7 +285,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#9A9A9B",
   },
-  MotionSensorFeedText: {
+  SensorFeedText: {
     paddingTop: 5,
     paddingLeft: 5,
     paddingBottom: 5,
@@ -331,17 +360,5 @@ const styles = StyleSheet.create({
   },
   buttonActive: {
     backgroundColor: Theme.buttonActive,
-  },
-  utilityContainerThemeLight: {
-    backgroundColor: Theme.utilityContainerThemeLight,
-  },
-  utilityContainerThemeDark: {
-    backgroundColor: Theme.utilityContainerThemeDark,
-  },
-  lightThemeTitlebar: {
-    backgroundColor: Theme.lightThemeTitlebar,
-  },
-  darkThemeTitlebar: {
-    backgroundColor: Theme.darkThemeTitlebar,
   },
 });

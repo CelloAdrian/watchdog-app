@@ -16,7 +16,7 @@ import backAction from "../utils/BackAction";
 import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import { TextInput } from "react-native-paper";
-import { BleManager } from "react-native-ble-plx";
+// import { BleManager } from "react-native-ble-plx";
 import Theme from "../utils/Theme";
 
 const WifiSetup = ({ navigation }: any) => {
@@ -25,15 +25,6 @@ const WifiSetup = ({ navigation }: any) => {
   const [wifiPassword, setWifiPassword] = useState("");
   const [showPassword, setShowPassword] = useState(true);
   // const manager = new BleManager();
-
-  // const initializeWifi = async () => {
-  //   try {
-  //     const SSID = await WifiManager.getCurrentWifiSSID();
-  //     console.log(SSID);
-  //   } catch(err) {
-  //     alert(err);
-  //   }
-  // }
 
   const saveWifiSetupScreenState = async () => {
     try {
