@@ -2,7 +2,12 @@ import React from "react";
 import { View, Text, StyleSheet, useColorScheme } from "react-native";
 import Theme from "../utils/Theme";
 
-const SensorContainer = ({ sensorName, children }: any) => {
+interface SensorContainerProps {
+  sensorName: string;
+  children: React.ReactNode;
+}
+
+const SensorContainer = ({ sensorName, children }: SensorContainerProps) => {
   const colorScheme = useColorScheme();
 
   const themeUtilityStyle =
@@ -41,7 +46,6 @@ const styles = StyleSheet.create({
     elevation: 10,
   },
   Titlebar: {
-    // backgroundColor: "#3B3941",
     padding: 5,
     borderRadius: 5,
   },

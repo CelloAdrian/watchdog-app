@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
-import { AntDesign } from "@expo/vector-icons";
+import Constants from 'expo-constants';
 import { Video } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Theme from "../utils/Theme";
@@ -66,7 +66,6 @@ const Homescreen = ({ navigation }: any) => {
     // Good night (8pm-5am) 20 - 5
 
     const timeOfDay = new Date().getHours();
-    console.log(timeOfDay)
 
     timeOfDay >= 5 && timeOfDay < 11
       ? setGreeting("Good morning")
@@ -180,9 +179,7 @@ const Homescreen = ({ navigation }: any) => {
             alignItems: "flex-end",
           }}
         >
-          <Text>
-            open-source at <AntDesign name="github" size={18} color="black" />
-          </Text>
+          <Text style={{ fontSize: 12, color:"#434C5E" }}>{Constants.manifest?.version}</Text>
         </View>
       </View>
       <BottomSheet
