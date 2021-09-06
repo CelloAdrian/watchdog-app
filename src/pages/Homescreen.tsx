@@ -46,7 +46,7 @@ const Homescreen = ({ navigation }: any) => {
 
   const bottomSheetRef = useRef<BottomSheet>(null);
 
-  const snapPoints = useMemo(() => ["5%", "75%"], []);
+  const snapPoints = useMemo(() => ["5%", "30%"], []);
 
   const renderBackdrop = useCallback(
     (props) => (
@@ -201,19 +201,6 @@ const Homescreen = ({ navigation }: any) => {
             </SensorContainer>
             <SensorContainer sensorName="GLASSBREAK SENSOR">
               <Text style={styles.SensorFeedText}>Hello</Text>
-            </SensorContainer>
-            <SensorContainer sensorName="CAMERA">
-              <Video
-                ref={video}
-                style={styles.Video}
-                isMuted={true}
-                source={{
-                  // HLS livestream example
-                  uri: "https://multiplatform-f.akamaihd.net/i/multi/will/bunny/big_buck_bunny_,640x360_400,640x360_700,640x360_1000,950x540_1500,.f4v.csmil/master.m3u8",
-                }}
-                resizeMode="contain"
-                shouldPlay
-              />
             </SensorContainer>
           </View>
         </View>
