@@ -15,7 +15,6 @@ import {
 import { StatusBar } from "expo-status-bar";
 import { LinearGradient } from "expo-linear-gradient";
 import Constants from 'expo-constants';
-import { Video } from "expo-av";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import Theme from "../utils/Theme";
 import BottomSheet, { BottomSheetBackdrop } from "@gorhom/bottom-sheet";
@@ -38,7 +37,6 @@ const Homescreen = ({ navigation }: any) => {
   const { value: isArmed, toggle: toggleIsArmed } = useToggle();
   const [greeting, setGreeting] = useState("");
   const [name, setName] = useState("");
-  const video = useRef<Video>(null);
 
   const [backdropPressBehavior] = useState<"none" | "close" | "collapse">(
     "collapse"
@@ -120,15 +118,6 @@ const Homescreen = ({ navigation }: any) => {
   return (
     <View style={[styles.Homescreen, themeContainerStyle]}>
       <StatusBar style="auto" />
-      {/* <Pressable onPress={handleExpandPress}>
-        <Text>Expand</Text>
-      </Pressable>
-      <Pressable onPress={handleCollapsePress}>
-        <Text>Collapse</Text>
-      </Pressable>
-      <Pressable onPress={handleClosePress}>
-        <Text>Close</Text>
-      </Pressable> */}
       <View style={styles.NavigationContainer}>
         <Pressable
           onPress={() => {
