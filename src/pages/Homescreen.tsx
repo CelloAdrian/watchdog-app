@@ -194,15 +194,6 @@ const Homescreen = ({ navigation }: any) => {
           </View>
         </View>
       </BottomSheet>
-      {/* DEV ONLY */}
-      <Pressable
-        onPress={() => {
-          AsyncStorage.clear();
-        }}
-      >
-        <Text>Clear Async Storage</Text>
-      </Pressable>
-      {/* DEV ONLY */}
     </View>
   );
 };
