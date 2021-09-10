@@ -20,6 +20,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import Register from "./src/pages/Register";
+import Onboarding from "./src/pages/Onboarding";
 import WifiSetup from "./src/pages/WifiSetup";
 import Homescreen from "./src/pages/Homescreen";
 import Theme from "./src/utils/Theme";
@@ -162,6 +163,7 @@ export default function App() {
             </>
           ) : (
             <>
+              <Stack.Screen name="Onboarding" component={Onboarding}/>
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="WifiSetup" component={WifiSetup} />
               <Stack.Screen name="Homescreen" component={HomescreenDrawer} />

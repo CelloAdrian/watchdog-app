@@ -12,7 +12,7 @@ const Theme = {
     darkButtonContainer: "#FFF",
     lightButtonContainer: "#191720",
     lightButtonThemeText: "#FFF",
-    darkButtonThemeText: "red",
+    darkButtonThemeText: "#000",
     lightThemeIcon: "#000",
     darkThemeIcon: "#FFF",
     utilityContainerThemeLight: "#FFF",
