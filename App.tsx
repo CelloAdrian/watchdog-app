@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import {
@@ -42,13 +42,12 @@ export default function App() {
   const [finishedWifiSetup, setFinishedWifiSetup] = useState(false);
   const colorScheme = useColorScheme();
 
-  const themeUtilityTextStyle = colorScheme === "light" ? "#191720" : "#FFF";
+  const themeUtilityTextStyle = colorScheme === "light" ? Theme.wd1 : Theme.wd2;
 
   const themeContainerStyle =
     colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
 
-  const drawerContainerStyle =
-    colorScheme === "light" ? Theme.lightContainer : Theme.darkContainer;
+  const drawerContainerStyle = colorScheme === "light" ? Theme.wd2 : Theme.wd1;
 
   function DrawerProps(props: any) {
     return (
@@ -163,7 +162,7 @@ export default function App() {
             </>
           ) : (
             <>
-              <Stack.Screen name="Onboarding" component={Onboarding}/>
+              <Stack.Screen name="Onboarding" component={Onboarding} />
               <Stack.Screen name="Register" component={Register} />
               <Stack.Screen name="WifiSetup" component={WifiSetup} />
               <Stack.Screen name="Homescreen" component={HomescreenDrawer} />
@@ -180,15 +179,15 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   lightContainer: {
-    backgroundColor: "#d0d0c0",
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: "#191720",
+    backgroundColor: Theme.wd1,
   },
   lightThemeText: {
-    color: Theme.lightThemeText,
+    color: Theme.wd1,
   },
   darkThemeText: {
-    color: Theme.darkThemeText,
+    color: Theme.wd2,
   },
 });

@@ -6,7 +6,7 @@ import {
   Pressable,
   useColorScheme,
   FlatList,
-  BackHandler
+  BackHandler,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as IntentLauncher from "expo-intent-launcher";
@@ -16,7 +16,7 @@ import OnboardingItem from "../components/OnboardingItem";
 import Button from "../components/Button";
 import Slides from "./Slides";
 
-const Onboarding = ({navigation}:any) => {
+const Onboarding = ({ navigation }: any) => {
   const colorScheme = useColorScheme();
 
   const openLocationSettings = async () => {
@@ -35,7 +35,8 @@ const Onboarding = ({navigation}:any) => {
   const themeTextStyle =
     colorScheme === "light" ? styles.lightThemeText : styles.darkThemeText;
 
-  const themeModalStyle = colorScheme === "light" ? styles.lightThemeModal : styles.darkThemeModal;
+  const themeModalStyle =
+    colorScheme === "light" ? styles.lightThemeModal : styles.darkThemeModal;
 
   useEffect(() => {
     BackHandler.addEventListener("hardwareBackPress", backAction);
@@ -66,18 +67,31 @@ const Onboarding = ({navigation}:any) => {
         {/* <Image source={require("../../assets/lockanim.gif")} style={{ height: "50%", aspectRatio: 1}}/> */}
       </View>
       <View
-        style={[{
-          flex: 0.3,
-          width: "100%",
-          justifyContent: "center",
-          alignItems: "center",
-          borderTopLeftRadius: 20,
-          borderTopRightRadius: 20,
-          paddingLeft: 20,
-          paddingRight: 20,
-        }, themeModalStyle]}
+        style={[
+          {
+            flex: 0.4,
+            width: "100%",
+            justifyContent: "center",
+            alignItems: "center",
+            borderTopLeftRadius: 20,
+            borderTopRightRadius: 20,
+            paddingLeft: 20,
+            paddingRight: 20,
+          },
+          themeModalStyle,
+        ]}
       >
-        <Text style={[{ fontSize: 14, fontWeight: "300" }, themeTextStyle]}>
+        <Text
+          style={[
+            {
+              fontSize: 14,
+              fontWeight: "400",
+              alignContent: "center",
+              textAlign: "center",
+            },
+            themeTextStyle,
+          ]}
+        >
           In order for the app to function properly, you need to enable both
           bluetooth and location permissions.
         </Text>
@@ -87,7 +101,12 @@ const Onboarding = ({navigation}:any) => {
         <Pressable onPress={openBluetoothSettings} style={styles.button}>
           <Text style={[styles.buttonText, themeTextStyle]}>Bluetooth</Text>
         </Pressable>
-        <Button ButtonText="Next" onPress={()=>{navigation.navigate("Register")}}/>
+        <Button
+          ButtonText="Next"
+          onPress={() => {
+            navigation.navigate("Register");
+          }}
+        />
       </View>
       {/* <Pressable onPress={test}>
         <Text>Open stuff</Text>
@@ -110,7 +129,7 @@ const styles = StyleSheet.create({
   button: {
     backgroundColor: "#7E7F8A",
     width: "40%",
-    height: "20%",
+    height: "15%",
     justifyContent: "center",
     alignItems: "center",
     marginTop: 10,
@@ -119,24 +138,24 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     fontSize: 18,
-    fontWeight: "300"
+    fontWeight: "300",
   },
   lightContainer: {
-    backgroundColor: Theme.lightContainer,
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: Theme.darkContainer,
+    backgroundColor: Theme.wd1,
   },
   lightThemeText: {
-    color: Theme.lightThemeText,
+    color: Theme.wd1,
   },
   darkThemeText: {
-    color: Theme.darkThemeText,
+    color: Theme.wd2,
   },
   lightThemeModal: {
-      backgroundColor: Theme.textInputBackgroundLight
+    backgroundColor: Theme.wd2,
   },
   darkThemeModal: {
-      backgroundColor: Theme.textInputBackgroundDark
+    backgroundColor: Theme.wd5,
   },
 });

@@ -43,12 +43,12 @@ const styles = StyleSheet.create({
     },
     subtitle: {
       fontSize: 16,
-      fontWeight: "300"
+      fontWeight: "300",
     },
     lightThemeTextOnboarding: {
-      color: Theme.lightThemeText
+      color: Theme.wd1,
     },
     darkThemeTextOnboarding: {
-      color: Theme.darkThemeText
+      color: Theme.wd2,
     }
 })

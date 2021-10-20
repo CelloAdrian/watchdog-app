@@ -54,15 +54,15 @@ const styles = StyleSheet.create({
     color: "#9A9A9B",
   },
   utilityContainerThemeLight: {
-    backgroundColor: Theme.utilityContainerThemeLight,
+    backgroundColor: Theme.wd2,
   },
   utilityContainerThemeDark: {
-    backgroundColor: Theme.utilityContainerThemeDark,
+    backgroundColor: Theme.wd5,
   },
   lightThemeTitlebar: {
-    backgroundColor: Theme.lightThemeTitlebar,
+    backgroundColor: Theme.wd2,
   },
   darkThemeTitlebar: {
-    backgroundColor: Theme.darkThemeTitlebar,
+    backgroundColor: Theme.wd3,
   },
 });

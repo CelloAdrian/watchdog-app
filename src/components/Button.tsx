@@ -58,15 +58,15 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   lightButtonContainer: {
-    backgroundColor: Theme.lightButtonContainer,
+    backgroundColor: Theme.wd1,
   },
   darkButtonContainer: {
-    backgroundColor: Theme.darkButtonContainer,
+    backgroundColor: Theme.wd4,
   },
   lightButtonThemeText: {
-    color: Theme.lightButtonThemeText,
+    color: Theme.wd2,
   },
   darkButtonThemeText: {
-    color: Theme.darkButtonThemeText,
+    color: Theme.wd2,
   },
 });

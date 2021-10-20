@@ -316,25 +316,25 @@ const styles = StyleSheet.create({
     width: "100%",
   },
   lightContainer: {
-    backgroundColor: Theme.lightContainer,
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: Theme.darkContainer,
+    backgroundColor: Theme.wd1,
   },
   lightThemeText: {
-    color: Theme.lightThemeText,
+    color: Theme.wd1,
   },
   darkThemeText: {
-    color: Theme.darkThemeText,
+    color: Theme.wd2,
   },
   buttonInactive: {},
   buttonInactiveLight: {
-    backgroundColor: Theme.buttonInactiveLight,
+    backgroundColor: Theme.wd2,
   },
   buttonInactiveDark: {
-    backgroundColor: Theme.buttonInactiveDark,
+    backgroundColor: Theme.wd1,
   },
   buttonActive: {
-    backgroundColor: Theme.buttonActive,
+    backgroundColor: Theme.wd6,
   },
 });

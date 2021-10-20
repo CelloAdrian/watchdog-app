@@ -157,9 +157,9 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   lightContainer: {
-    backgroundColor: Theme.lightContainer,
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: Theme.darkContainer,
+    backgroundColor: Theme.wd1,
   },
 });

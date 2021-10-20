@@ -141,21 +141,21 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   lightContainer: {
-    backgroundColor: Theme.lightContainer,
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: Theme.darkContainer,
+    backgroundColor: Theme.wd1,
   },
   lightThemeText: {
-    color: Theme.lightThemeText,
+    color: Theme.wd1,
   },
   darkThemeText: {
-    color: Theme.darkThemeText,
+    color: Theme.wd2,
   },
   lightTextInput: {
-    backgroundColor: Theme.textInputBackgroundLight,
+    backgroundColor: Theme.wd2,
   },
   darkTextInput: {
-    backgroundColor: Theme.textInputBackgroundDark,
+    backgroundColor: Theme.wd5,
   },
 });
