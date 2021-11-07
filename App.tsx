@@ -20,9 +20,9 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { AntDesign } from "@expo/vector-icons";
 import Constants from "expo-constants";
 import Register from "./src/pages/Register";
-import Onboarding from "./src/pages/Onboarding";
 import WifiSetup from "./src/pages/WifiSetup";
 import Homescreen from "./src/pages/Homescreen";
+import Onboarding from "./src/pages/Onboarding"; 
 import Theme from "./src/utils/Theme";
 
 const Loading = () => {

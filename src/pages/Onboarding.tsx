@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -7,6 +7,7 @@ import {
   useColorScheme,
   FlatList,
   BackHandler,
+  Animated,
 } from "react-native";
 import { StatusBar } from "expo-status-bar";
 import * as IntentLauncher from "expo-intent-launcher";
@@ -15,19 +16,30 @@ import backAction from "../utils/BackAction";
 import OnboardingItem from "../components/OnboardingItem";
 import Button from "../components/Button";
 import Slides from "./Slides";
+import Paginator from "../components/Paginator";
 
 const Onboarding = ({ navigation }: any) => {
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const [currentIndex, setCurrentIndex] = useState(0);
+
   const colorScheme = useColorScheme();
 
-  const openLocationSettings = async () => {
-    IntentLauncher.startActivityAsync(
-      IntentLauncher.ACTION_LOCATION_SOURCE_SETTINGS
-    );
-  };
+  const viewableItemsChanged = useRef(({ viewableItems }: any) => {
+    setCurrentIndex(viewableItems[0].index);
+  }).current;
 
-  const openBluetoothSettings = async () => {
-    IntentLauncher.startActivityAsync(IntentLauncher.ACTION_BLUETOOTH_SETTINGS);
-  };
+  const viewConfig = useRef({ viewAreaCoveragePercentThreshold: 50 }).current;
+
+  const slidesRef = useRef(null);
+  // const openLocationSettings = async () => {
+  //   IntentLauncher.startActivityAsync(
+  //     IntentLauncher.ACTION_LOCATION_SOURCE_SETTINGS
+  //   );
+  // };
+
+  // const openBluetoothSettings = async () => {
+  //   IntentLauncher.startActivityAsync(IntentLauncher.ACTION_BLUETOOTH_SETTINGS);
+  // };
 
   const themeContainerStyle =
     colorScheme === "light" ? styles.lightContainer : styles.darkContainer;
@@ -50,7 +62,7 @@ const Onboarding = ({ navigation }: any) => {
       <StatusBar style="auto" />
       <View
         style={{
-          flex: 0.7,
+          flex: 0.9,
           width: "100%",
           justifyContent: "center",
           alignItems: "center",
@@ -63,25 +75,34 @@ const Onboarding = ({ navigation }: any) => {
           pagingEnabled
           bounces={false}
           keyExtractor={(item) => item.id}
+          onScroll={Animated.event(
+            [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+            { useNativeDriver: false }
+          )}
+          scrollEventThrottle={32}
+          onViewableItemsChanged={viewableItemsChanged}
+          viewabilityConfig={viewConfig}
+          ref={slidesRef}
         />
         {/* <Image source={require("../../assets/lockanim.gif")} style={{ height: "50%", aspectRatio: 1}}/> */}
       </View>
       <View
         style={[
           {
-            flex: 0.4,
+            flex: 0.1,
+            flexDirection: "row",
             width: "100%",
-            justifyContent: "center",
+            justifyContent: "space-between",
             alignItems: "center",
             borderTopLeftRadius: 20,
             borderTopRightRadius: 20,
-            paddingLeft: 20,
-            paddingRight: 20,
+            paddingLeft: 30,
+            paddingRight: 30,
           },
           themeModalStyle,
         ]}
       >
-        <Text
+        {/* <Text
           style={[
             {
               fontSize: 14,
@@ -94,26 +115,22 @@ const Onboarding = ({ navigation }: any) => {
         >
           In order for the app to function properly, you need to enable both
           bluetooth and location permissions.
-        </Text>
-        <Pressable onPress={openLocationSettings} style={styles.button}>
+        </Text> */}
+        {/* <Pressable onPress={openLocationSettings} style={styles.button}>
           <Text style={[styles.buttonText, themeTextStyle]}>Location</Text>
         </Pressable>
         <Pressable onPress={openBluetoothSettings} style={styles.button}>
           <Text style={[styles.buttonText, themeTextStyle]}>Bluetooth</Text>
-        </Pressable>
+        </Pressable> */}
+        <Paginator data={Slides} scrollX={scrollX} />
+        <Text>Test</Text>
         <Button
-          ButtonText="Next"
+          ButtonText="Finish"
           onPress={() => {
             navigation.navigate("Register");
           }}
         />
       </View>
-      {/* <Pressable onPress={test}>
-        <Text>Open stuff</Text>
-      </Pressable>
-      <Pressable onPress={test2}>
-        <Text>Open stuff2</Text>
-      </Pressable> */}
     </View>
   );
 };

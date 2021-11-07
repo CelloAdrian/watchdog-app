@@ -42,7 +42,7 @@ export default Button;
 
 const styles = StyleSheet.create({
   SubmitButtonContainer: {
-    width: "100%",
+    width: "40%",
   },
   SubmitButton: {
     width: "100%",

@@ -1,8 +1,8 @@
 export default [
     {
         id:  "1",
-        title: "Welcome",
-        description: "Thank you for choosing us to protect your house!",
+        title: "Quick Setup",
+        description: "In this quick setup, you'll be given instructions to setup your device.",
         image: require("../../assets/lockanim.gif")
     },
     {
