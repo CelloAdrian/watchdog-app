@@ -72,6 +72,7 @@ const Onboarding = ({ navigation }: any) => {
           data={Slides}
           renderItem={({ item }) => <OnboardingItem item={item} />}
           horizontal
+          showsHorizontalScrollIndicator={false}
           pagingEnabled
           bounces={false}
           keyExtractor={(item) => item.id}
@@ -123,7 +124,6 @@ const Onboarding = ({ navigation }: any) => {
           <Text style={[styles.buttonText, themeTextStyle]}>Bluetooth</Text>
         </Pressable> */}
         <Paginator data={Slides} scrollX={scrollX} />
-        <Text>Test</Text>
         <Button
           ButtonText="Finish"
           onPress={() => {

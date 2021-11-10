@@ -11,7 +11,7 @@ const Paginator = ({ data, scrollX }: any) => {
   const { width } = useWindowDimensions();
 
   return (
-    <View style={{ flexDirection: "row", height: 64 }}>
+    <View style={{ flexDirection: "row" }}>
       {data.map((_: any, i: any) => {
         const inputRange = [(i - 1) * width, i * width, (i + 1) * width];
 

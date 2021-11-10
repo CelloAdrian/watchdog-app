@@ -19,13 +19,19 @@ const OnboardingItem = ({ item }: any) => {
       : styles.darkThemeTextOnboarding;
 
   return (
-    <View style={[styles.container, { width }]}>
-      <Image source={item.image} style={[styles.image, { width }]} />
-      <View style={{ flex: 0.3, alignItems: "center" }}>
-        <Text style={[styles.title, themeTextStyle]}>{item.title}</Text>
-        <Text style={[styles.subtitle, themeTextStyle]}>
-          {item.description}
-        </Text>
+    <View>
+      <View style={[styles.container, { width }]}>
+        <View style={{ paddingTop: 20 }}>
+          <Text style={[{ fontSize: 18, fontWeight: "700" }, themeTextStyle]}>Quick Setup</Text>
+        </View>
+        {/* <Image source={item.image} style={[styles.image, { width }]} /> */}
+        <View style={{ flex: 0.8, alignItems: "center", width: "100%" }}>
+          <Image source={item.image} style={[styles.image, { width }]} />
+          <Text style={[styles.title, themeTextStyle]}>{item.title}</Text>
+          <Text style={[styles.subtitle, themeTextStyle]}>
+            {item.description}
+          </Text>
+        </View>
       </View>
     </View>
   );
@@ -36,18 +42,18 @@ export default OnboardingItem;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
-    padding: 20,
+    width: "100%",
+    padding: 40,
+    justifyContent: "space-between",
   },
   image: {
-    // flex: 0.7,
+    // flex: 1,
     height: "50%",
     aspectRatio: 1,
     justifyContent: "center",
   },
   title: {
-    fontSize: 32,
+    fontSize: 24,
     fontWeight: "700",
     marginTop: 20,
     marginBottom: 10,
