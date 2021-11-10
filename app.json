@@ -18,7 +18,9 @@
     "plugins": ["@config-plugins/react-native-ble-plx"],
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.alsafe.watchdog",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -30,7 +32,8 @@
         "android.permission.BLUETOOTH",
         "android.permission.BLUETOOTH_ADMIN"
       ],
-      "package": "watchdog.expo.client"
+      "package": "watchdog.expo.client",
+      "versionCode": 1
     },
     "androidNavigationBar": {
       /*
