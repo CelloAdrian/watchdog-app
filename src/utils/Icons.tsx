@@ -53,9 +53,9 @@ export function HamburgerMenu(props: SvgProps) {
 
 const styles = StyleSheet.create({
   lightThemeIcon: {
-    color: Theme.lightThemeIcon,
+    color: Theme.wd2,
   },
   darkThemeIcon: {
-    color: Theme.darkThemeIcon,
+    color: Theme.wd2,
   }
 })

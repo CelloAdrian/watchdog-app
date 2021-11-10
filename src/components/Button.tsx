@@ -42,7 +42,7 @@ export default Button;
 
 const styles = StyleSheet.create({
   SubmitButtonContainer: {
-    width: "100%",
+    width: "40%",
   },
   SubmitButton: {
     width: "100%",
@@ -58,15 +58,15 @@ const styles = StyleSheet.create({
     paddingRight: 20,
   },
   lightButtonContainer: {
-    backgroundColor: Theme.lightButtonContainer,
+    backgroundColor: Theme.wd1,
   },
   darkButtonContainer: {
-    backgroundColor: Theme.darkButtonContainer,
+    backgroundColor: Theme.wd4,
   },
   lightButtonThemeText: {
-    color: Theme.lightButtonThemeText,
+    color: Theme.wd2,
   },
   darkButtonThemeText: {
-    color: Theme.darkButtonThemeText,
+    color: Theme.wd2,
   },
 });

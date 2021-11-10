@@ -13,16 +13,14 @@
     "updates": {
       "fallbackToCacheTimeout": 0
     },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
+    "assetBundlePatterns": ["**/*"],
     "userInterfaceStyle": "automatic",
-    "plugins": [
-      "@config-plugins/react-native-ble-plx"
-    ],
+    "plugins": ["@config-plugins/react-native-ble-plx"],
     "ios": {
       "supportsTablet": true,
-      "userInterfaceStyle": "automatic"
+      "userInterfaceStyle": "automatic",
+      "bundleIdentifier": "com.alsafe.watchdog",
+      "buildNumber": "1.0.0"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,8 +32,27 @@
         "android.permission.BLUETOOTH",
         "android.permission.BLUETOOTH_ADMIN"
       ],
-      "package": "watchdog.expo.client"
+      "package": "watchdog.expo.client",
+      "versionCode": 1
     },
+    "androidNavigationBar": {
+      /*
+         Determines to show or hide bottom navigation bar.
+         "true" to show, "false" to hide.
+         If set to false, status bar will also be hide. As it's a general rule to hide both status bar and navigation bar on Android developer official docs.
+       */
+    //  "visible": true,
+     /*
+       Configure the navigation bar icons to have light or dark color.
+       Valid values: "light-content", "dark-content".
+     */
+     "barStyle": "dark-content"
+     /*
+       Configuration for android navigation bar.
+       6 character long hex color string, eg: "#000000"
+     */
+    //  "backgroundColor": ""
+   },
     "web": {
       "favicon": "./assets/favicon.png"
     }

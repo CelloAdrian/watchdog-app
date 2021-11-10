@@ -9,6 +9,7 @@ import {
 } from "react-native";
 import { TextInput } from "react-native-paper";
 import { StatusBar } from "expo-status-bar";
+import Constants from "expo-constants";
 import { LeftArrowCurve } from "../utils/Icons";
 import Button from "../components/Button";
 import backAction from "../utils/BackAction";
@@ -83,14 +84,33 @@ const Register = ({ navigation }: any) => {
             }}
           />
         </View>
-        <Button
-          ButtonText="Let's go"
-          disabled={!name}
-          onPress={() => {
-            saveUsername();
-            navigation.navigate("WifiSetup");
-          }}
-        />
+        <View
+          style={[
+            {
+              flex: 0.1,
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+              // borderTopLeftRadius: 20,
+              // borderTopRightRadius: 20,
+              // paddingLeft: 30,
+              // paddingRight: 30,
+            },
+          ]}
+        >
+          <Text style={{ fontSize: 12, color: "#434C5E" }}>
+            {Constants.manifest?.version}
+          </Text>
+          <Button
+            ButtonText="Let's go"
+            disabled={!name}
+            onPress={() => {
+              saveUsername();
+              navigation.navigate("WifiSetup");
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -141,21 +161,21 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   lightContainer: {
-    backgroundColor: Theme.lightContainer,
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: Theme.darkContainer,
+    backgroundColor: Theme.wd1,
   },
   lightThemeText: {
-    color: Theme.lightThemeText,
+    color: Theme.wd1,
   },
   darkThemeText: {
-    color: Theme.darkThemeText,
+    color: Theme.wd2,
   },
   lightTextInput: {
-    backgroundColor: Theme.textInputBackgroundLight,
+    backgroundColor: Theme.wd2,
   },
   darkTextInput: {
-    backgroundColor: Theme.textInputBackgroundDark,
+    backgroundColor: Theme.wd5,
   },
 });

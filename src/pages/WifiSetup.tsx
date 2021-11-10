@@ -11,6 +11,7 @@ import {
 import NetInfo from "@react-native-community/netinfo";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 // import * as IntentLauncher from "expo-intent-launcher";
+import Constants from "expo-constants";
 import { StatusBar } from "expo-status-bar";
 import backAction from "../utils/BackAction";
 import { LeftArrowCurve } from "../utils/Icons";
@@ -28,11 +29,11 @@ const WifiSetup = ({ navigation }: any) => {
 
   const saveWifiSetupScreenState = async () => {
     try {
-      if (wifiName || wifiPassword !== null) {
+      if (wifiName && wifiPassword) {
         await AsyncStorage.setItem("finished_wifi_setup", wifiName);
       }
     } catch (err) {
-      alert(err);
+      console.log(err);
     }
   };
 
@@ -43,7 +44,7 @@ const WifiSetup = ({ navigation }: any) => {
         {
           title: "watchdog",
           message:
-            "Location permission is required to connect with or scan for Wifi networks. ",
+            "Location permission is required to connect with or scan for WiFi networks. ",
           buttonNegative: "DENY",
           buttonPositive: "ACCEPT",
         }
@@ -98,8 +99,8 @@ const WifiSetup = ({ navigation }: any) => {
 
   useEffect(
     () => {
-      BackHandler.addEventListener("hardwareBackPress", backAction);
       requestLocationPermission();
+      BackHandler.addEventListener("hardwareBackPress", backAction);
       saveWifiSetupScreenState();
 
       // manager.onStateChange(() => {
@@ -193,13 +194,28 @@ const WifiSetup = ({ navigation }: any) => {
             }}
           />
         </View>
-        <Button
-          ButtonText="Let's go"
-          disabled={!wifiPassword || !wifiName}
-          onPress={() => {
-            navigation.navigate("Homescreen");
-          }}
-        />
+        <View
+          style={[
+            {
+              flex: 0.1,
+              flexDirection: "row",
+              width: "100%",
+              justifyContent: "space-between",
+              alignItems: "center",
+            },
+          ]}
+        >
+          <Text style={{ fontSize: 12, color: "#434C5E" }}>
+            {Constants.manifest?.version}
+          </Text>
+          <Button
+            ButtonText="Let's go"
+            disabled={!wifiPassword || !wifiName}
+            onPress={() => {
+              navigation.navigate("Homescreen");
+            }}
+          />
+        </View>
       </View>
     </View>
   );
@@ -254,21 +270,21 @@ const styles = StyleSheet.create({
     overflow: "hidden",
   },
   lightContainer: {
-    backgroundColor: Theme.lightContainer,
+    backgroundColor: Theme.wd2,
   },
   darkContainer: {
-    backgroundColor: Theme.darkContainer,
+    backgroundColor: Theme.wd1,
   },
   lightThemeText: {
-    color: Theme.lightThemeText,
+    color: Theme.wd1,
   },
   darkThemeText: {
-    color: Theme.darkThemeText,
+    color: Theme.wd2,
   },
   lightTextInput: {
-    backgroundColor: Theme.textInputBackgroundLight,
+    backgroundColor: Theme.wd3,
   },
   darkTextInput: {
-    backgroundColor: Theme.textInputBackgroundDark,
+    backgroundColor: Theme.wd5,
   },
 });
